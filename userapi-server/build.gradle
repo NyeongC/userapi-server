@@ -22,6 +22,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'com.bucket4j:bucket4j-core:8.3.0'
 
 	implementation 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -34,4 +35,12 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+test {
+	testLogging {
+		events "started", "passed", "skipped", "failed"
+		showStandardStreams = true // System.out.println 같은 출력도 보여줌
+		exceptionFormat = 'full'  // 예외 전체 출력
+	}
 }
