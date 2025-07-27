@@ -26,4 +26,7 @@ public class SignUpRequest {
 
     @NotBlank
     private String address;
+
+    @NotBlank
+    private String role;
 }

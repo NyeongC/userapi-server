@@ -4,9 +4,7 @@ import com.ccn.userapi.domain.user.dto.SignUpRequest;
 import com.ccn.userapi.domain.user.entity.User;
 import com.ccn.userapi.domain.user.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,6 +24,12 @@ class UserControllerTest {
     @Autowired private UserRepository userRepository;
     @Autowired private PasswordEncoder passwordEncoder;
 
+
+    @BeforeEach
+    void setUp() {
+        userRepository.deleteAll();
+    }
+
     @AfterEach
     void tearDown() {
         userRepository.deleteAll();
@@ -41,6 +45,7 @@ class UserControllerTest {
                 .rrn("900101-1234567")
                 .phone("010-1234-5678")
                 .address("서울시 강남구")
+                .role("ROLE_USER")
                 .build();
 
         mockMvc.perform(post("/api/user/signup")
@@ -59,6 +64,7 @@ class UserControllerTest {
                 .rrn("800101-1111111")
                 .phone("010-9999-8888")
                 .address("서울시 종로구")
+                .role("ROLE_USER")
                 .build();
         userRepository.save(existing);
 
@@ -69,6 +75,7 @@ class UserControllerTest {
                 .rrn("900101-1234567")
                 .phone("010-1234-5678")
                 .address("서울시 강남구")
+                .role("ROLE_USER")
                 .build();
 
         mockMvc.perform(post("/api/user/signup")
@@ -87,6 +94,7 @@ class UserControllerTest {
                 .rrn("900101-1234567") // 중복 주민번호
                 .phone("010-9999-8888")
                 .address("서울시 종로구")
+                .role("ROLE_USER")
                 .build();
         userRepository.save(existing);
 
@@ -97,6 +105,7 @@ class UserControllerTest {
                 .rrn("900101-1234567") // 중복
                 .phone("010-1234-5678")
                 .address("서울시 강남구")
+                .role("ROLE_USER")
                 .build();
 
         mockMvc.perform(post("/api/user/signup")
@@ -135,6 +144,10 @@ class UserControllerTest {
 
         public SignUpRequestBuilder address(String address) {
             setField("address", address); return this;
+        }
+
+        public SignUpRequestBuilder role(String role) {
+            setField("role", role); return this;
         }
 
         public SignUpRequest build() {

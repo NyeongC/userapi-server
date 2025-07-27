@@ -30,6 +30,7 @@ public class UserService {
                 .rrn(request.getRrn())
                 .phone(request.getPhone())
                 .address(request.getAddress())
+                .role(request.getRole())
                 .build();
 
         userRepository.save(user);
