@@ -22,11 +22,12 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/user/signup").permitAll()
+                        .requestMatchers("/api/user/signup", "/api/user/login").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
-                .httpBasic(Customizer.withDefaults());
+                .formLogin(AbstractHttpConfigurer::disable) // 기본 formLogin은 막음
+                .httpBasic(Customizer.withDefaults()); // admin 용 Basic Auth는 유지
         return http.build();
     }
 
